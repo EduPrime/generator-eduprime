@@ -1,0 +1,23 @@
+{
+  "name": "@eduprime/generator-eduprime",
+  "version": "0.0.2",
+  "description": "Yeoman generator for creating modules and CRUD for EduPrime",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EduPrime/generator-eduprime.git"
+  },
+  "bugs": {
+    "url": "https://github.com/EduPrime/generator-eduprime/issues"
+  },
+  "homepage": "https://github.com/EduPrime/generator-eduprime#readme",
+  "author": "Hermes Alves",
+  "license": "BSD-3-Clause",
+  "dependencies": {
+    "yeoman-generator": "^7.3.2"
+  }
+}
