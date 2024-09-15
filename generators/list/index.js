@@ -139,7 +139,6 @@ function extractTables(typeFilePath) {
 
   return tables;
 }
-
 function extractTablesAndFields(typeFilePath) {
   const tablesAndFields = {};
   const fileContent = fs.readFileSync(typeFilePath, 'utf-8');
@@ -151,12 +150,15 @@ function extractTablesAndFields(typeFilePath) {
   );
 
   function visit(node) {
+    // Encontrar a interface 'Database'
     if (ts.isInterfaceDeclaration(node) && node.name.text === 'Database') {
       node.members.forEach((schemaMember) => {
+        // Procurar pelo schema 'public'
         if (ts.isPropertySignature(schemaMember) && schemaMember.name.getText() === 'public') {
           const publicSchemaType = schemaMember.type;
           if (ts.isTypeLiteralNode(publicSchemaType)) {
             publicSchemaType.members.forEach((publicMember) => {
+              // Procurar pela seção 'Tables'
               if (ts.isPropertySignature(publicMember) && publicMember.name.getText() === 'Tables') {
                 const tablesType = publicMember.type;
                 if (ts.isTypeLiteralNode(tablesType)) {
@@ -167,10 +169,18 @@ function extractTablesAndFields(typeFilePath) {
 
                       const tableType = tableMember.type;
                       if (ts.isTypeLiteralNode(tableType)) {
-                        tableType.members.forEach((fieldMember) => {
-                          if (ts.isPropertySignature(fieldMember)) {
-                            const fieldName = fieldMember.name.getText();
-                            tablesAndFields[tableName].push(fieldName);
+                        tableType.members.forEach((tableProperty) => {
+                          // Procurar a interface 'Row' que contém os campos da tabela
+                          if (ts.isPropertySignature(tableProperty) && tableProperty.name.getText() === 'Row') {
+                            const rowType = tableProperty.type;
+                            if (ts.isTypeLiteralNode(rowType)) {
+                              rowType.members.forEach((fieldMember) => {
+                                if (ts.isPropertySignature(fieldMember)) {
+                                  const fieldName = fieldMember.name.getText();
+                                  tablesAndFields[tableName].push(fieldName);
+                                }
+                              });
+                            }
                           }
                         });
                       }
@@ -191,3 +201,4 @@ function extractTablesAndFields(typeFilePath) {
 
   return tablesAndFields;
 }
+

@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import <%= serviceName %> from '../services/<%= serviceName %>';
-const service = new <%= serviceName %>();
+import { onMounted, ref } from 'vue'
+import <%= serviceName %> from '../services/<%= serviceName %>'
 
-const dataList = ref([]);
-const tableName = '<%= tableName %>';
-const fields = [<%- tableFields.map(field => `'${field}'`).join(', ') %>]; // Inserindo campos corretamente com aspas
+const service = new <%= serviceName %>()
 
+const dataList = ref([])
+const tableName = '<%= tableName %>'
+const fields = [<%- tableFields.map(field => `'${field}'`).join(', ') %>]  
 
 onMounted(async () => {
-  dataList.value = await service.getAll();
-});
+  dataList.value = await service.getAll()
+})
 </script>
 
 <template>
