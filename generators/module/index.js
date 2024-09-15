@@ -23,6 +23,7 @@ export default class extends Generator {
   
     // Derivar nomes adicionais
     const serviceName = `${moduleName}Service`; // ex.: ClassRegistrationService
+    const serviceTypeName = `${serviceName}Table`; // e.g., ClassRegistrationServiceTable
     const componentName = moduleName; // Usar o nome do módulo como nome do componente
     const serviceInstanceName = `${this._camelCase(moduleName)}Service`; // ex.: classRegistrationService
     const routePath = moduleRoute; // Usar o moduleRoute como routePath
@@ -70,10 +71,10 @@ export default class extends Generator {
     this.fs.copyTpl(
       this.templatePath('services/ServiceTemplate.ts'),
       this.destinationPath(`${modulePath}/services/${serviceName}.ts`),
-      { serviceName }
+      { serviceName, serviceTypeName }
     );
   
-    // Copiar o template do componente
+    // Copiar o temp,late do componente
     this.fs.copyTpl(
       this.templatePath('components/ComponentTemplate.vue'),
       this.destinationPath(`${modulePath}/components/${componentName}.vue`),
